@@ -28,7 +28,7 @@ if not "emails" in db:
                field("date_scraped", DATE, default=NOW),
                field("referrer", STRING(50)),
                field("search_term", STRING(50)),
-               field("date_written", DATE),
+               field("source", STRING(50)),
                )
     db.create("emails", schema)
 
@@ -41,19 +41,31 @@ def getProperties(source):
 
     for elem in dom.head:
         if elem.type is "element":
-            for auth in author_regex.findall(elem.source):
-                author = elem.attrs["content"]
+            try:
+                for auth in author_regex.findall(elem.source):
+                    author = elem.attrs["content"]
+            except Exception as e:
+                print("EXCEPTION ENCOUNTERED")
+
             
-            for desc in descr_regex.findall(elem.source):
-                descr = elem.attrs["content"]
-                descr = dom.head.by_tag('title')[0].content +" || "+ descr
-        
+            try:
+                for desc in descr_regex.findall(elem.source):
+                    descr = elem.attrs["content"]
+                    descr = dom.head.by_tag('title')[0].content +" || "+ descr
+            except Exception as e:
+                print("EXCEPTION ENCOUNTERED")
+                
             
     if author == '':        
         for elem in dom.body:
             if elem.type is "element":
-                for auth in author_regex.findall(elem.source):
-                    author = elem.attrs["content"]
+                try:
+                    for auth in author_regex.findall(elem.source):
+                        author = elem.content
+                except Exception as e:
+                    print("EXCEPTION ENCOUNTERED")
+
+  
         
 
     return [author, descr]
@@ -70,7 +82,6 @@ class MineTheWeb(Crawler):
         emails = []
         for email in email_regex.findall(source):
             emails.append(email)
-            print("email found: ", email, " at ", link.url)
     
         db.emails.append(
             email=string.join(emails), 
@@ -80,7 +91,8 @@ class MineTheWeb(Crawler):
             attr_text=link.text, 
             context=descr, 
             referrer=link.referrer, 
-            search_term=q
+            search_term=q,
+            source="scrape"
             )
             
 
