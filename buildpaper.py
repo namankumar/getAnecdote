@@ -22,6 +22,7 @@ meta = {
     "pub": [
         "time-to-change.org.uk", 
         "themighty.com",
+        "mentalfloss.com",
         "tonic.vice.com", 
         "teenvogue.com", 
        # "neatorama.com", 
@@ -30,7 +31,8 @@ meta = {
         "bustle.com",
         "vogue.com",
         "teenvogue.com",
-        "7cups",
+        "7cups.com",
+        "elitedaily.com",
         "thriveglobal.com",
         #"thesecretlifeofamanicdepressive.wordpress.com",
         "mind.org.uk",
@@ -413,7 +415,7 @@ def uploadToFirebase(dryrun=True):
             a['summary'] = sum[:sum.find('.')+1]
 
             a['url'] = urllib.parse.unquote(value['url'])
-            a['date'] = value['timescraped']
+            a['date'] = value['timescraped'] * -1
             a['text'] = value['text']
             a['image'] = value['image']
         
@@ -424,7 +426,6 @@ def uploadToFirebase(dryrun=True):
                     print("update to firebase worked")
             except Exception as e:
                 print("update to firebase failed" + e)
-            
             #content['articles/' + db.generate_key()] = a 
 
     if not dryrun:
