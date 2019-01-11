@@ -21,8 +21,22 @@ meta = {
 
     "pub": [
         "time-to-change.org.uk", 
+        "vogue.in",
+        "webmd.com",
+        "cosmopolitan.com", 
         "themighty.com",
         "mentalfloss.com",
+        "self.com",
+        "refinery29.com",
+        "wired.com",
+        "huffingtonpost.com",
+        "washingtonpost.com",
+        "propublica.org",
+        "statnews.com",
+        "nytimes.com",
+        "greatist.com",
+        "redbookmag.com",
+        "npr.org",
         "tonic.vice.com", 
         "teenvogue.com", 
        # "neatorama.com", 
@@ -31,7 +45,9 @@ meta = {
         "bustle.com",
         "vogue.com",
         "teenvogue.com",
+        "medium.com",
         "7cups.com",
+        "fastcompany.com",
         "elitedaily.com",
         "thriveglobal.com",
         #"thesecretlifeofamanicdepressive.wordpress.com",
@@ -46,8 +62,9 @@ meta = {
     ], 
 #episode
     "seterms":{
-        "conditions":["anxiety","mental health", "mental illness","panic attack", "holiday blues"], 
-        "state":["functioning", "struggle", "recovery", ], 
+        "conditions":["how do i talk about my anxiety", "how do i talk about my depression", "how do i support someone with anxiety", "how do i support someone with depression",
+        "anxiety", "stress", "counsellor" , "counselor" , "therapist", "mental health", "mental illness","panic attack", "holiday blues"], 
+        "state":["functioning", "struggle", "recovery", "triggers"], 
         "type": ["blog", "story", "feels like", "personal story", "experience", "facts"]
         },
 
@@ -384,8 +401,7 @@ def uploadToFirebase(dryrun=True):
     bc = loadBlogContent()
     bl = loadBlogLinks()
     bltr = [key for key, value in bl.items() if 'published' not in value or value['published'] is 0]
-    blogcontent = {key:bc[key] for key in bltr }
-
+    blogcontent = {key:bc[key] for key in bltr if key in bc}
     
     x = sorted(blogcontent.items(),key=lambda x: (x[1]['category']['condition'], x[1]['category']['personal']), reverse=True)
 
@@ -394,13 +410,16 @@ def uploadToFirebase(dryrun=True):
     y = 0
     content = {}
     for key, value in x[:50]:
-        if value['category']['words'] > 1000:
+        if value['category']['words'] > 500:
             
             if "https://" in value['image']:
                 pass
             elif "http://" in value['image']:
                 continue
             else:
+                continue
+
+            if value['category']['personal'] < 10:
                 continue
 
             print(str(y) + " " + value['title'] + str(value['category']))
@@ -435,13 +454,17 @@ def uploadToFirebase(dryrun=True):
     #db.update(content)
 
 
+selinks = getSELinks()
+#selinks = getSELinks("old")
 
+bloglinks = runGetBlogLinks(selinks)
 
-#selinks = getSELinks()
-#bloglinks = runGetBlogLinks(selinks)
+runGetBlogContent(loadBlogLinks())
 
-#runGetBlogContent(loadBlogLinks())
+blogcontent = loadBlogContent()
+print(len(blogcontent))
 
-#blogcontent = loadBlogContent()
-#print(len(blogcontent))
 uploadToFirebase()
+
+
+#uploadToFirebase(False)

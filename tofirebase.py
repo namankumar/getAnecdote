@@ -14,11 +14,8 @@ for key, value in feed.feed:
 exit()
 
 config = {
-  "apiKey": "firebase-adminsdk-491um@airohealthpractice.iam.gserviceaccount.com",
-  "authDomain": "https://airohealthpractice.firebaseio.com/",
-  "databaseURL": "https://airohealthpractice.firebaseio.com/",
-  "storageBucket": "airohealthpractice.appspot.com",
-  "serviceAccount": "./airohealthpractice-firebase-adminsdk-491um-9564567345.json"
+
+    #config properties go here
 
 }
 firebase = pyrebase.initialize_app(config)
