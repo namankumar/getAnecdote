@@ -1,0 +1,2 @@
+Algorithm to analyze text to determine if it's a personal story about mental health or not. Also has scripts to scrape, downlaod, and uploade result to an endpoint where the story can be pushed out to the right user. 
+
