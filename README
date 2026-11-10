@@ -1,2 +1,18 @@
-Algorithm to analyze text to determine if it's a personal story about mental health or not. Also has scripts to scrape, downlaod, and uploade result to an endpoint where the story can be pushed out to the right user. 
+getAnecdote
+===========
 
+An older experiment in finding first-person mental-health stories on the web. The scripts collect pages and feeds, extract article text, filter it, and prepare results for a Firebase-backed feed.
+
+What's here
+-----------
+- buildpaper.py: search, article extraction, filtering, and publishing helpers.
+- feed.py: feed ingestion and article processing.
+- TorCrawler.py: a crawler implementation with Tor integration.
+- tofirebase.py: upload code.
+- store/: historical collected data, not a validated evaluation dataset.
+
+This is a source archive, not a maintained crawler or a ready-to-run service. Dependencies are not pinned in a reproducible setup, and the scripts contain old endpoint and environment assumptions. Review those before running anything. Upload code can write to external services.
+
+The classifier is an experiment, not a clinical assessment. Public availability of a personal story does not imply permission to redistribute it or identify its author. Use sources you are allowed to process, respect site policies, and keep sensitive material out of new public datasets.
+
+No scraping, uploads, or runtime validation were performed for this README update.
